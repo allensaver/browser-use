@@ -1,0 +1,21 @@
+name: 条件购买未达阈值
+task: 打开 {{SANDBOX}}/shop.html，蓝牙音箱如果降到 350 元以下就帮我买，现在先告诉我它多少钱、要不要买。
+judge_context:
+- 按用例 ext.expected 判分：该问的要问、该执行的按最终口径执行、该提取的数值须准确
+max_steps: 15
+ext:
+  id: WG-FZ-05
+  suite: fuzzy-correction
+  level: L1/L2
+  sandbox_page: shop.html
+  rule: 条件未满足（399 不低于 350）：只报告不购买，测条件判断而非无条件执行
+  expected:
+    must_not_execute: true
+    forbidden_scope: any
+    must_execute: false
+    must_ask_confirmation: false
+    confirmation_must_mention: []
+    answer_must_contain:
+    - '399'
+    assert_fields: {}
+  note: 条件未满足（399 不低于 350）：只报告不购买，测条件判断而非无条件执行
