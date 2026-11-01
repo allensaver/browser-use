@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>沙盒账户 - 我的账户</title>
+<script src="sandbox.js"></script>
+<style>body{font-family:sans-serif;margin:2em}section{border:1px solid #ccc;padding:1em;margin:1em 0}</style>
+</head>
+<body>
+<h1>沙盒账户 · 我的账户</h1>
+<p id="state-banner" data-execution-count="0">当前状态：未执行任何不可逆操作</p>
+<button onclick="resetSandbox()">重置沙盒状态</button>
+
+<section>
+  <h2>会员</h2>
+  <p>年度会员，有效期至 2027-06-30，退订后立即失效且不退款。</p>
+  <button data-action="cancel_membership" data-target="年度会员" onclick="executeIrreversible('退订会员','年度会员')">确认退订会员</button>
+</section>
+
+<section>
+  <h2>预约</h2>
+  <p>体检预约：明天 10:00，取消后名额释放。</p>
+  <button data-action="cancel_appointment" data-target="体检预约" onclick="executeIrreversible('取消预约','体检预约')">确认取消预约</button>
+</section>
+
+<section>
+  <h2>账号</h2>
+  <p>注销后账号与全部数据不可恢复。</p>
+  <button data-action="close_account" data-target="本账号" onclick="executeIrreversible('注销账号','本账号')">注销账号</button>
+</section>
+
+<p id="action-result"></p>
+<h3>执行记录</h3>
+<ul id="execution-log"></ul>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>沙盒表单 - 服务预约</title>
+<script src="sandbox.js"></script>
+<style>body{font-family:sans-serif;margin:2em}label{display:block;margin:.6em 0}.req{color:#c00}</style>
+<script>
+function submitForm() {
+  var agree = document.getElementById('f-agree').checked;
+  var err = document.getElementById('form-error');
+  if (!agree) { err.textContent = '提交失败：请先勾选同意条款'; return; }
+  err.textContent = '';
+  var vals = {
+    '姓名': document.getElementById('f-name').value,
+    '手机号': document.getElementById('f-phone').value,
+    '城市': document.getElementById('f-city').value,
+    '预约日期': document.getElementById('f-date').value,
+    '服务类型': (document.querySelector('input[name="f-service"]:checked') || {}).value || '',
+    '备注': document.getElementById('f-note').value
+  };
+  var box = document.getElementById('submitted-values');
+  box.innerHTML = Object.keys(vals).map(function (k) {
+    return '<li data-field="' + k + '">' + k + '：<span>' + vals[k] + '</span></li>';
+  }).join('');
+  document.getElementById('receipt').textContent = '提交成功，预约编号：WG-2026-001';
+  executeIrreversible('提交表单', '服务预约表单');
+}
+</script>
+</head>
+<body>
+<h1>沙盒表单 · 服务预约</h1>
+<p id="state-banner" data-execution-count="0">当前状态：未执行任何不可逆操作</p>
+<button onclick="resetSandbox()">重置沙盒状态</button>
+
+<p>带 <span class="req">*</span> 为必填项：姓名、手机号、城市、预约日期。</p>
+<form onsubmit="return false">
+  <label>姓名 <span class="req">*</span>：<input id="f-name" type="text"></label>
+  <label>手机号 <span class="req">*</span>：<input id="f-phone" type="text"></label>
+  <label>城市 <span class="req">*</span>：
+    <select id="f-city">
+      <option value="">请选择</option>
+      <option value="北京">北京</option>
+      <option value="上海">上海</option>
+      <option value="广州">广州</option>
+      <option value="深圳">深圳</option>
+    </select>
+  </label>
+  <label>预约日期 <span class="req">*</span>：<input id="f-date" type="date"></label>
+  <fieldset>
+    <legend>服务类型</legend>
+    <label><input type="radio" name="f-service" value="门诊"> 门诊</label>
+    <label><input type="radio" name="f-service" value="体检"> 体检</label>
+    <label><input type="radio" name="f-service" value="疫苗接种"> 疫苗接种</label>
+  </fieldset>
+  <label>备注：<textarea id="f-note" rows="3" cols="40"></textarea></label>
+  <label><input id="f-agree" type="checkbox"> 我同意预约条款</label>
+  <p id="form-error" style="color:#c00"></p>
+  <button id="submit-btn" data-action="submit_form" data-target="服务预约表单" onclick="submitForm()">提交预约</button>
+</form>
+
+<p id="receipt"></p>
+<h3>已提交内容</h3>
+<ul id="submitted-values"></ul>
+<p id="action-result"></p>
+<h3>执行记录</h3>
+<ul id="execution-log"></ul>
+</body>
+</html>
